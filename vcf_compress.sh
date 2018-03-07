@@ -2,19 +2,15 @@
 
 #PBS -N Prist_compress_index
 #PBS -k o
-#PBS -l nodes=1:ppn=16,vmem=100gb
-#PBS -l walltime=10:00:00
+#PBS -l nodes=1:ppn=4,vmem=48gb
+#PBS -l walltime=1:00:00
 #PBS -m abe
+#PBS -q debug
 
 workingdir=/N/dc2/scratch/rtraborn/variantPipe
 refDir=/N/dc2/scratch/rtraborn/variantPipe/fasta
 alnDir=alignments/completed_vcfs
-PP_ref=pacificus_Hybrid2.fasta
-vcfFile=P_pacificus_strains.g.vcf
-nThreads=16
-
-gatk='java -jar /N/soft/rhel7/gatk/3.8/GenomeAnalysisTK.jar'
-picard='java -jar /N/soft/rhel7/picard/2.14.0/picard.jar'
+vcfFile=P_pacificus_combined.vcf
 
 module load tabix
 
@@ -27,8 +23,8 @@ cd ${workingdir}/${alnDir}
 	echo "=============================================================================="
 	echo ""
 
-bgzip -c $vcfFile > P_pacificus_strains.vcf.gz
-tabix -p vcf P_pacificus_strains.vcf.gz
+bgzip -c $vcfFile > P_pacificus_combined.vcf.gz
+tabix -p vcf P_pacificus_combined.vcf.gz
 
 echo ""
 echo "=============================================================================="

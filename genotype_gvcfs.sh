@@ -2,7 +2,7 @@
 
 #PBS -N Prist_variant_calling_GATK
 #PBS -k o
-#PBS -l nodes=1:ppn=24,vmem=72gb
+#PBS -l nodes=1:ppn=8,vmem=50gb
 #PBS -l walltime=8:00:00
 #PBS -m abe
 
@@ -11,6 +11,7 @@ refDir=/N/dc2/scratch/rtraborn/variantPipe/fasta
 alnDir=alignments/completed_vcfs
 PP_ref=pacificus_Hybrid2.fasta
 vcfList=/N/dc2/scratch/rtraborn/variantPipe/prist_vcfs.list
+vcfFile=P_pacificus_combined.vcf
 nThreads=16
 
 gatk='java -jar /N/soft/rhel7/gatk/3.8/GenomeAnalysisTK.jar'
