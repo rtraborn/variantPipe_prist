@@ -9,6 +9,7 @@ library(tools)
 ##########################################################################
 vcfDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/alignments/completed_vcfs/combined_vcf"
 myFile <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/alignments/completed_vcfs/P_pacificus_strains.vcf.gz"
+myAnnot <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/annotation/"
 ##########################################################################
 
 setwd(vcfDir)
@@ -16,7 +17,7 @@ setwd(vcfDir)
 #source("/N/dc2/projects/PromoterPopGen/DmPromoterPopGen/scripts/identifiers_to_list.R")
 #pop.list <- identifiers_to_list(csv.file=popListFile)
 	  
-    GENOME.class <- readData(path=vcfDir, populations=FALSE, format="VCF", parallized=FALSE, FAST=TRUE, big.data=TRUE)
+    GENOME.class <- readData(path=vcfDir, gffpath=myAnnot, populations=FALSE, format="VCF", parallized=FALSE, FAST=TRUE, big.data=TRUE)
     GENOME.class 
     #GENOME.class <- readVCF(filename=myFile, numcols=100000, frompos=1, topos=1000000, tid="scaffold1")
     #GENOME.class <- set.populations(GENOME.class, new.populations=pop.list, diploid=TRUE)  
