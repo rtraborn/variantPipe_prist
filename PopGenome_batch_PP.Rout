@@ -1,0 +1,126 @@
+
+R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## This script in progress for testing on Carbonate
+> # must add routine to do with gff3 files
+> # current script will run, but encounters a 'segmentation fault' error
+> 
+> library(PopGenome)
+Loading required package: ff
+Loading required package: bit
+Attaching package bit
+package:bit (c) 2008-2012 Jens Oehlschlaegel (GPL-2)
+creators: bit bitwhich
+coercion: as.logical as.integer as.bit as.bitwhich which
+operator: ! & | xor != ==
+querying: print length any all min max range sum summary
+bit access: length<- [ [<- [[ [[<-
+for more help type ?bit
+
+Attaching package: 'bit'
+
+The following object is masked from 'package:base':
+
+    xor
+
+Attaching package ff
+- getOption("fftempdir")=="/tmp/Rtmpo9sQVI"
+
+- getOption("ffextension")=="ff"
+
+- getOption("ffdrop")==TRUE
+
+- getOption("fffinonexit")==TRUE
+
+- getOption("ffpagesize")==65536
+
+- getOption("ffcaching")=="mmnoflush"  -- consider "ffeachflush" if your system stalls on large writes
+
+- getOption("ffbatchbytes")==16777216 -- consider a different value for tuning your system
+
+- getOption("ffmaxbytes")==536870912 -- consider a different value for tuning your system
+
+
+Attaching package: 'ff'
+
+The following objects are masked from 'package:bit':
+
+    clone, clone.default, clone.list
+
+The following objects are masked from 'package:utils':
+
+    write.csv, write.csv2
+
+The following objects are masked from 'package:base':
+
+    is.factor, is.ordered
+
+> library(bigmemory)
+
+Attaching package: 'bigmemory'
+
+The following object is masked from 'package:ff':
+
+    is.readonly
+
+> library(tools)
+> 
+> ##########################################################################
+> vcfDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/alignments/completed_vcfs/combined_vcf"
+> vcfFile <- "P_pacificus_combined.vcf"
+> myAnnot <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/annotation/Hybrid2_AUGUSTUS2014_gene.gff3"
+> popListFile <- "/N/dc2/scratch/rtraborn/variantPipe/pop_info/PP_popInfo.csv"
+> ##########################################################################
+> 
+> setwd(vcfDir)
+> 
+>     source("/N/u/rtraborn/Carbonate/scratch/variantPipe/identifiers_to_list.R")
+>     pop.list <- identifiers_to_list(csv.file=popListFile)
+>     GFF_split_into_scaffolds(myAnnot, "scaffoldGFFs")
+Success open Input file 
+Success open Output file 
+[1] TRUE
+Warning message:
+In dir.create(output.folder) : 'scaffoldGFFs' already exists
+>     VCF_split_into_scaffolds(vcfFile, "TaylorSplit")
+Success open Input file 
+Success open Output file 
+[1] TRUE
+Warning message:
+In dir.create(output.folder) : 'TaylorSplit' already exists
+>     GENOME.class <- readData("TaylorSplit", format="VCF", gffpath="scaffoldGFFs")
+|            :            |            :            | 100 %
+|===================================================| ;-) 
+
+>     GENOME.class <- set.populations(GENOME.class, new.populations=pop.list, diploid=TRUE)  
+|            :            |            :            | 100 %
+|===================================================>     GENOME.class.split <- splitting.data(GENOME.class, subsites="gene")
+
+Concatenate regions 
+|            :            |            :            | 100 %
+|===================================================
+|            :            |            :            | 100 %
+|=============================================>     GENOME.class.split <- neutrality.stats(GENOME.class.split)
+|            :            |            :            | 100 %
+|=============================================>     GENOME.class.split <- MKT(GENOME.class.split)
+|            :            |            :            | 100 %
+|=============================================>     mkt_pp <- get.MKT(GENOME.class.split)
+>     write.table(mkt_pp, file="mkt_pp_out.txt",col.names=TRUE)
+> q()
+> proc.time()
+   user  system elapsed 
+628.679 191.906 917.219 
