@@ -11,6 +11,7 @@ vcfDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/alignments/completed_vcfs
 vcfFile <- "P_pacificus_combined.vcf"
 myAnnot <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/annotation/Hybrid2_AUGUSTUS2014_gene.gff3"
 popListFile <- "/N/dc2/scratch/rtraborn/variantPipe/pop_info/PP_popInfo.csv"
+pristFaFile <- "/N/dc2/scratch/rtraborn/variantPipe/pacificus_Hybrid2.fasta"
 ##########################################################################
 
 setwd(vcfDir)
@@ -21,6 +22,7 @@ setwd(vcfDir)
     VCF_split_into_scaffolds(vcfFile, "TaylorSplit")
     GENOME.class <- readData("TaylorSplit", format="VCF", gffpath="scaffoldGFFs")
     GENOME.class <- set.populations(GENOME.class, new.populations=pop.list, diploid=TRUE)  
+    #GENOME.class <- set.synnonsyn(GENOME.class, ref.chr=pristFaFile, save.codons=TRUE)
     GENOME.class.split <- splitting.data(GENOME.class, subsites="gene")
     GENOME.class.split <- neutrality.stats(GENOME.class.split)
     GENOME.class.split <- MKT(GENOME.class.split)
