@@ -38,7 +38,7 @@ The following object is masked from 'package:base':
     xor
 
 Attaching package ff
-- getOption("fftempdir")=="/tmp/RtmpPUqn6k"
+- getOption("fftempdir")=="/tmp/Rtmpzzb0ev"
 
 - getOption("ffextension")=="ff"
 
@@ -92,7 +92,9 @@ The following object is masked from 'package:ff':
 >     source("/N/u/rtraborn/Carbonate/scratch/variantPipe/identifiers_to_list.R")
 >     pop.list <- identifiers_to_list(csv.file=popListFile)
 >     GFF_split_into_scaffolds(myAnnot, "scaffoldGFFs")
-Error::opening Input file[1] TRUE
+Success open Input file 
+Success open Output file 
+[1] TRUE
 Warning message:
 In dir.create(output.folder) : 'scaffoldGFFs' already exists
 >     VCF_split_into_scaffolds(vcfFile, "TaylorSplit")
@@ -108,9 +110,9 @@ In dir.create(output.folder) : 'TaylorSplit' already exists
 >     GENOME.class <- set.populations(GENOME.class, new.populations=pop.list, diploid=TRUE)  
 |            :            |            :            | 100 %
 |===================================================>     GENOME.class <- set.synnonsyn(GENOME.class, ref.chr=pristFaFile, save.codons=TRUE)
-opening ff /tmp/RtmpPUqn6k/ff85a51314d14.ff
-opening ff /tmp/RtmpPUqn6k/ff85a7e781884.ff
-opening ff /tmp/RtmpPUqn6k/ff85a7e781ad7.ff
+opening ff /tmp/Rtmpzzb0ev/ff9641c134163.ff
+opening ff /tmp/Rtmpzzb0ev/ff96428b7c7eb.ff
+opening ff /tmp/Rtmpzzb0ev/ff96466983088.ff
 Cannot open file.
 
  *** caught segfault ***
