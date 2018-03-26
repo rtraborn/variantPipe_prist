@@ -22,7 +22,7 @@ setwd(vcfDir)
     VCF_split_into_scaffolds(vcfFile, "TaylorSplit")
     GENOME.class <- readData("TaylorSplit", format="VCF", gffpath="scaffoldGFFs")
     GENOME.class <- set.populations(GENOME.class, new.populations=pop.list, diploid=TRUE)  
-    GENOME.class <- set.synnonsyn(GENOME.class, ref.chr=pristFaFile, save.codons=TRUE)
+    GENOME.class <- set.synnonsyn(GENOME.class, save.codons=TRUE, ref.chr=rep(pristFaFile, length(GENOME.class@region.names)))
     GENOME.class@region.data@synonymous
     GENOME.class.split <- splitting.data(GENOME.class, subsites="gene")
     #GENOME.class.split <- neutrality.stats(GENOME.class.split)

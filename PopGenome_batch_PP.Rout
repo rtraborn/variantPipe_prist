@@ -38,7 +38,7 @@ The following object is masked from 'package:base':
     xor
 
 Attaching package ff
-- getOption("fftempdir")=="/tmp/Rtmpzzb0ev"
+- getOption("fftempdir")=="/tmp/RtmpkOd32v"
 
 - getOption("ffextension")=="ff"
 
@@ -109,10 +109,10 @@ In dir.create(output.folder) : 'TaylorSplit' already exists
 
 >     GENOME.class <- set.populations(GENOME.class, new.populations=pop.list, diploid=TRUE)  
 |            :            |            :            | 100 %
-|===================================================>     GENOME.class <- set.synnonsyn(GENOME.class, ref.chr=pristFaFile, save.codons=TRUE)
-opening ff /tmp/Rtmpzzb0ev/ff9641c134163.ff
-opening ff /tmp/Rtmpzzb0ev/ff96428b7c7eb.ff
-opening ff /tmp/Rtmpzzb0ev/ff96466983088.ff
+|===================================================>     GENOME.class <- set.synnonsyn(GENOME.class, save.codons=TRUE, ref.chr=rep(pristFaFile, length(GENOME.class@region.names)))
+opening ff /tmp/RtmpkOd32v/ff10b0143517e0.ff
+opening ff /tmp/RtmpkOd32v/ff10b05b1694ea.ff
+opening ff /tmp/RtmpkOd32v/ff10b05578f071.ff
 Cannot open file.
 
  *** caught segfault ***
@@ -120,6 +120,6 @@ address (nil), cause 'memory not mapped'
 
 Traceback:
  1: .Call("get_ind_fasta", ref.chr, 1, file.info[[1]][2])
- 2: set.synnonsyn(GENOME.class, ref.chr = pristFaFile, save.codons = TRUE)
- 3: set.synnonsyn(GENOME.class, ref.chr = pristFaFile, save.codons = TRUE)
+ 2: set.synnonsyn(GENOME.class, save.codons = TRUE, ref.chr = rep(pristFaFile,     length(GENOME.class@region.names)))
+ 3: set.synnonsyn(GENOME.class, save.codons = TRUE, ref.chr = rep(pristFaFile,     length(GENOME.class@region.names)))
 An irrecoverable exception occurred. R is aborting now ...
