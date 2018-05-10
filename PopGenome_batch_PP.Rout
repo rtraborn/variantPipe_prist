@@ -38,7 +38,7 @@ The following object is masked from 'package:base':
     xor
 
 Attaching package ff
-- getOption("fftempdir")=="/tmp/RtmpkOd32v"
+- getOption("fftempdir")=="/tmp/Rtmpy7yLKG"
 
 - getOption("ffextension")=="ff"
 
@@ -80,11 +80,12 @@ The following object is masked from 'package:ff':
 > library(tools)
 > 
 > ##########################################################################
-> vcfDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/alignments/completed_vcfs/combined_vcf"
-> vcfFile <- "P_pacificus_combined.vcf"
-> myAnnot <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/annotation/Hybrid2_AUGUSTUS2014_CDS_final.gff3"
+> vcfDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/el_paco_vcf"
+> vcfFile <- "P_pacificus_combined.vcf.gz"
+> myAnnot <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/annotation/El_Paco_gene_annotations_genes.gff"
+> annotDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/gff3_file"
 > popListFile <- "/N/dc2/scratch/rtraborn/variantPipe/pop_info/PP_popInfo.csv"
-> pristFaFile <- "/N/dc2/scratch/rtraborn/variantPipe/pacificus_Hybrid2.fasta"
+> pristFaFile <- "/N/dc2/projects/Pristionchus/MKT_shared/El_Paco_genome.fa"
 > ##########################################################################
 > 
 > setwd(vcfDir)
@@ -92,34 +93,15 @@ The following object is masked from 'package:ff':
 >     source("/N/u/rtraborn/Carbonate/scratch/variantPipe/identifiers_to_list.R")
 >     pop.list <- identifiers_to_list(csv.file=popListFile)
 >     GFF_split_into_scaffolds(myAnnot, "scaffoldGFFs")
-Success open Input file 
-Success open Output file 
-[1] TRUE
-Warning message:
-In dir.create(output.folder) : 'scaffoldGFFs' already exists
+Error::opening Input file[1] TRUE
 >     VCF_split_into_scaffolds(vcfFile, "TaylorSplit")
 Success open Input file 
 Success open Output file 
-[1] TRUE
-Warning message:
-In dir.create(output.folder) : 'TaylorSplit' already exists
->     GENOME.class <- readData("TaylorSplit", format="VCF", gffpath="scaffoldGFFs")
-|            :            |            :            | 100 %
-|===================================================| ;-) 
-
->     GENOME.class <- set.populations(GENOME.class, new.populations=pop.list, diploid=TRUE)  
-|            :            |            :            | 100 %
-|===================================================>     GENOME.class <- set.synnonsyn(GENOME.class, save.codons=TRUE, ref.chr=rep(pristFaFile, length(GENOME.class@region.names)))
-opening ff /tmp/RtmpkOd32v/ff10b0143517e0.ff
-opening ff /tmp/RtmpkOd32v/ff10b05b1694ea.ff
-opening ff /tmp/RtmpkOd32v/ff10b05578f071.ff
-Cannot open file.
 
  *** caught segfault ***
-address (nil), cause 'memory not mapped'
+address 0x2e9dfb5, cause 'memory not mapped'
 
 Traceback:
- 1: .Call("get_ind_fasta", ref.chr, 1, file.info[[1]][2])
- 2: set.synnonsyn(GENOME.class, save.codons = TRUE, ref.chr = rep(pristFaFile,     length(GENOME.class@region.names)))
- 3: set.synnonsyn(GENOME.class, save.codons = TRUE, ref.chr = rep(pristFaFile,     length(GENOME.class@region.names)))
+ 1: .Call("split_VCF_scaffolds", VCF.file, output.folder)
+ 2: VCF_split_into_scaffolds(vcfFile, "TaylorSplit")
 An irrecoverable exception occurred. R is aborting now ...
