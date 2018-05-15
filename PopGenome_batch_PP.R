@@ -9,8 +9,7 @@ library(tools)
 ##########################################################################
 vcfDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/el_paco_vcf"
 vcfFile <- "P_pacificus_combined.vcf.gz"
-myAnnot <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/annotation/El_Paco_gene_annotations_genes.gff"
-annotDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/gff3_file"
+myAnnot <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/annotation/El_Paco_gene_annotations_v1_gene.gff"
 popListFile <- "/N/dc2/scratch/rtraborn/variantPipe/pop_info/PP_popInfo.csv"
 pristFaFile <- "/N/dc2/projects/Pristionchus/MKT_shared/El_Paco_genome.fa"
 ##########################################################################

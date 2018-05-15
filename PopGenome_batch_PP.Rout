@@ -38,7 +38,7 @@ The following object is masked from 'package:base':
     xor
 
 Attaching package ff
-- getOption("fftempdir")=="/tmp/Rtmpy7yLKG"
+- getOption("fftempdir")=="/tmp/RtmpwBYvvz"
 
 - getOption("ffextension")=="ff"
 
@@ -82,8 +82,7 @@ The following object is masked from 'package:ff':
 > ##########################################################################
 > vcfDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/el_paco_vcf"
 > vcfFile <- "P_pacificus_combined.vcf.gz"
-> myAnnot <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/annotation/El_Paco_gene_annotations_genes.gff"
-> annotDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/gff3_file"
+> myAnnot <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/annotation/El_Paco_gene_annotations_v1_gene.gff"
 > popListFile <- "/N/dc2/scratch/rtraborn/variantPipe/pop_info/PP_popInfo.csv"
 > pristFaFile <- "/N/dc2/projects/Pristionchus/MKT_shared/El_Paco_genome.fa"
 > ##########################################################################
@@ -93,13 +92,17 @@ The following object is masked from 'package:ff':
 >     source("/N/u/rtraborn/Carbonate/scratch/variantPipe/identifiers_to_list.R")
 >     pop.list <- identifiers_to_list(csv.file=popListFile)
 >     GFF_split_into_scaffolds(myAnnot, "scaffoldGFFs")
-Error::opening Input file[1] TRUE
+Success open Input file 
+Success open Output file 
+[1] TRUE
+Warning message:
+In dir.create(output.folder) : 'scaffoldGFFs' already exists
 >     VCF_split_into_scaffolds(vcfFile, "TaylorSplit")
 Success open Input file 
 Success open Output file 
 
  *** caught segfault ***
-address 0x2e9dfb5, cause 'memory not mapped'
+address 0x2e57fb5, cause 'memory not mapped'
 
 Traceback:
  1: .Call("split_VCF_scaffolds", VCF.file, output.folder)
