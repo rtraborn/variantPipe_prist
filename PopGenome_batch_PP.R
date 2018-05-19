@@ -19,13 +19,17 @@ setwd(vcfDir)
 
     source("/N/u/rtraborn/Carbonate/scratch/variantPipe/identifiers_to_list.R")
     pop.list <- identifiers_to_list(csv.file=popListFile)
+
     GFF_split_into_scaffolds(myAnnot, "scaffoldGFFs")
     VCF_split_into_scaffolds(vcfFile, "TaylorSplit")
+
     GENOME.class <- readData("TaylorSplit", format="VCF", gffpath="scaffoldGFFs")
-    #GENOME.class <- readData(vcfDir, format="VCF", gffpath=annotDir)
     GENOME.class <- set.populations(GENOME.class, new.populations=pop.list, diploid=TRUE)  
-    GENOME.class <- neutrality.stats(GENOME.class)
+    save(GENOME.class, file="GENOME.class_test.RData")   
+    save.session(GENOME.class, "GENOME.class_test")   
+
     GENOME.class <- set.synnonsyn(GENOME.class, save.codons=TRUE, ref.chr=pristChr)
+    GENOME.class <- neutrality.stats(GENOME.class)
     GENOME.class@region.data@synonymous
     GENOME.class.split <- splitting.data(GENOME.class, subsites="gene", whole.data=FALSE)
     GENOME.class.split <- neutrality.stats(GENOME.class.split)
