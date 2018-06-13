@@ -1,0 +1,8 @@
+################################# P. pacificus PopGen analysis
+R. Taylor Raborn <rtraborn@indiana.edu>
+1. To run this example, first make sure you have installed PopGenome (v. 2.6.6) and its dependencies.
+2. Next, make sure you add the files (and the paths to files), including the VCF, in the appropriate locations as specified in PopGenome_batch_PP.R
+3. To run the example on Cabonate, please do the following (from the top level of this folder):
+   qsub PopGenome_batch_prist.sh
+
+
