@@ -5,29 +5,41 @@ library(bigmemory)
 library(tools)
 
 ##########################################################################
-vcfDir <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/el_paco_vcf"
-vcfFile <- "P_pacificus_combined.vcf"
-myAnnot <- "/N/u/rtraborn/Carbonate/scratch/variantPipe/annotation/El_Paco_gene_annotations_v1_gene_CDS.gff"
-popListFile <- "/N/dc2/scratch/rtraborn/variantPipe/pop_info/PP_popInfo_updated.csv"
-pristFaFile <- "/N/dc2/projects/Pristionchus/MKT_shared/El_Paco_genome.fa"
-pristChr <- c("ChrI.fa","ChrII.fa","ChrIII.fa","ChrIV.fa","ChrV.fa","ChrX.fa", "pbcontig117.fa","pbcontig118.fa","pbcontig2839.fa","pbcontig2855.fa","pbcontig2856.fa","pbcontig2858.fa","pbcontig2865.fa","pbcontig2867.fa","pbcontig2876.fa","pbcontig2879.fa","pbcontig2880.fa","pbcontig2881.fa","pbcontig2882.fa","pbcontig2884.fa","pbcontig2886.fa","pbcontig2887.fa","pbcontig2890.fa","pbcontig2894.fa","pbcontig2897.fa","pbcontig2898.fa","pbcontig2.fa","pbcontig323.fa","pbcontig410.fa","pbcontig508.fa","pbcontig514.fa","pbcontig517.fa","pbcontig519.fa","pbcontig544.fa","pbcontig585.fa","pbcontig627.fa","pbcontig654.fa","pbcontig660.fa","pbcontig695.fa","pbcontig709.fa","pbcontig710.fa","pbcontig72.fa","pbcontig741.fa","pbcontig744.fa","pbcontig745.fa","pbcontig759.fa","pbcontig787.fa")
+vcfDir <- "/N/dc2/projects/Pristionchus/LBUI/Pop_gene/variantPipe_prist/vcf_out"
+vcfFile <- "Ppacificus_filtered.recode.vcf"
+Pexs <- "SRR646204_output.g.vcf"
+myAnnot <- "/N/dc2/projects/Pristionchus/LBUI/Pop_gene/PopGenome_scripts/El_Paco_gene_annotations_v1_gene_CDS.gff" 
+popListFile <- "/N/dc2/projects/Pristionchus/LBUI/Pop_gene/PopGenome_scripts/Pop_info_updated.csv"
+pristFaFile <- "El_Paco_genome.fa"
+pristChr <- c("ChrI.fa","ChrII.fa","ChrIII.fa","ChrIV.fa","ChrV.fa","ChrX.fa","pbcontig118.fa","pbcontig2855.fa","pbcontig2858.fa","pbcontig2867.fa","pbcontig2880.fa","pbcontig2881.fa","pbcontig2886.fa","pbcontig2887.fa","pbcontig2890.fa","pbcontig2894.fa","pbcontig2897.fa","pbcontig517.fa","pbcontig627.fa","pbcontig654.fa","pbcontig660.fa","pbcontig695.fa","pbcontig710.fa","pbcontig72.fa","pbcontig759.fa")
 ##########################################################################
 
 setwd(vcfDir)
 
-    source("/N/u/rtraborn/Carbonate/scratch/variantPipe/identifiers_to_list.R")
+    source("/N/dc2/projects/Pristionchus/LBUI/Pop_gene/PopGenome_scripts/identifiers_to_list.R")
     pop.list <- identifiers_to_list(csv.file=popListFile)
 
-    GFF_split_into_scaffolds(myAnnot, "scaffoldGFFs")
-    VCF_split_into_scaffolds(vcfFile, "TaylorSplit")
+   #GFF_split_into_scaffolds(myAnnot, "scaffoldGFFs")
+    #VCF_split_into_scaffolds(vcfFile, "VCFSplit")
 
-    GENOME.class <- readData("TaylorSplit", format="VCF", gffpath="scaffoldGFFs")
+    GENOME.class <- readData("VCFSplit", format="VCF", gffpath="scaffoldGFFs", include.unknown=TRUE)
+    get.sum.data(GENOME.class)
+    get.individuals(GENOME.class)
     GENOME.class <- set.populations(GENOME.class, new.populations=pop.list, diploid=TRUE)  
+    #outgroup <- c("Control")
+    GENOME.class <- set.outgroup(GENOME.class, c("SRR646204"), diploid =TRUE)
     save(GENOME.class, file="GENOME.class_test.RData")   
     #save.session(GENOME.class, "GENOME.class_test")   
-
-    GENOME.class <- set.synnonsyn(GENOME.class, save.codons=TRUE, ref.chr=pristChr)
-    GENOME.class <- neutrality.stats(GENOME.class)
+    #pristChr <- GENOME.class@region.names
+    GENOME.class <- set.synnonsyn(GENOME.class, save.codons=FALSE, ref.chr=pristChr)
+    GENOME.class <- neutrality.stats(GENOME.class, new.outgroup=FALSE, detail=TRUE, do.R2=TRUE, subsites="syn")
+    GENOME.class <- diversity.stats(GENOME.class)
+     GENOME.class@region.stats@nucleotide.diversity
+    save(GENOME.class, file="GENOME.class.RData")
+    EuR.sum <- get.sum.data(GENOME.class)
+    write.table(EuR.sum, file = "EuR.sum.csv", sep = "\t")
+    EuR.Tajima <- GENOME.class@Tajima.D
+    write.table(EuR.Tajima, file = "EuR.Tajima.csv")
     GENOME.class@region.data@synonymous
     GENOME.class.split <- splitting.data(GENOME.class, subsites="gene", whole.data=FALSE)
     GENOME.class.split <- neutrality.stats(GENOME.class.split)
@@ -35,7 +47,11 @@ setwd(vcfDir)
     #The next line should be commented out! Because syn/nonsyn sites are already set.
     #GENOME.class.split <- set.synnonsyn(GENOME.class.split, save.codons=TRUE, ref.chr=pristFaFile)
     GENOME.class.split@region.data@synonymous
-    GENOME.class.split <- MKT(GENOME.class.split)
+    GENOME.class.split <- MKT(GENOME.class.split, do.fisher.test=TRUE)
     mkt_pp <- get.MKT(GENOME.class.split)
-    write.table(mkt_pp, file="mkt_pp_out.txt",col.names=TRUE)
+    write.table(mkt_pp, file="EuR_mkt_pp_out.txt",col.names=TRUE, sep = "\t")
+    EuR.genes <- GENOME.class.split@region.names
+    write.table(EuR.genes, file = "EuR.genes.csv", sep = "\t")
+    EuR.Tajima.split <- GENOME.class.split@Tajima.D
+    write.table(EuR.Tajima.split, file = "EuR.Tajima.split.csv", sep = "\t")
 q()
